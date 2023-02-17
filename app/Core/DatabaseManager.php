@@ -46,6 +46,9 @@ class DatabaseManager
 
     public function delete($table, $id)
     {
+        // real id is: n - 1
+        --$id;
+
         if (! isset($this->data[$table][$id])) {
             return;
         }

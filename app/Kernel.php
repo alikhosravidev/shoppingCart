@@ -2,11 +2,13 @@
 
 namespace App;
 
+use App\Commands\Products\ProductList;
 use App\Core\Config;
 use App\Core\Container;
 use App\Core\DatabaseManager;
 use App\Core\Request;
 use App\Core\Response;
+use Symfony\Component\Console\Application;
 
 class Kernel
 {
@@ -16,6 +18,7 @@ class Kernel
     {
         $this->register();
         $this->boot();
+        $this->registerCommands();
     }
 
     protected function register()
@@ -32,8 +35,6 @@ class Kernel
 
         $response = $container->get(Response::class);
         $container->set(Response::class, $response);
-
-        $this->boot();
     }
 
     protected function boot()
@@ -41,6 +42,16 @@ class Kernel
         $database = $this->container->get(DatabaseManager::class);
         $this->container->set(DatabaseManager::class, $database);
 
+    }
+
+    protected function registerCommands()
+    {
+        $application = new Application();
+        $commands = $this->container->get(Config::class)->get('commands');
+        foreach ($commands as $command) {
+            $application->add($this->container->get($command));
+        }
+        $application->run();
     }
 
     public function sendResponse()

@@ -10,14 +10,12 @@ class BaseEntity
 
     public function __construct(protected DatabaseManager $database)
     {
-        $this->data = $this->database->select($this->getTableName());
+        $this->data = $this->database->select($this->getTableName()) ?? [];
     }
 
     protected function getLastId(): int
     {
-        $ids = array_keys($this->data);
-
-        return end($ids);
+        return count($this->data);
     }
 
     protected function getNewId(): int
@@ -27,19 +25,24 @@ class BaseEntity
         return ++$lastId;
     }
 
-    protected function store(array $data)
+    public function all(): array
+    {
+        return $this->data;
+    }
+
+    public function store(array $data)
     {
         $data['id'] = $data['id'] ?? $this->getNewId();
 
         $this->database->store($this->getTableName(), $data);
     }
 
-    protected function update(int $id, array $data)
+    public function update(int $id, array $data)
     {
         $this->database->update($this->getTableName(), $id, $data);
     }
 
-    protected function delete(int $id)
+    public function delete(int $id)
     {
         $this->database->delete($this->getTableName(), $id);
     }
