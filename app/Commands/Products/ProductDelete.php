@@ -28,13 +28,18 @@ class ProductDelete extends BaseCommand
 
         $id = $input->getOption('id');
         if (! is_numeric($id)) {
-            $output->writeln('You most inter product id with option --id');
+            $output->writeln('<error>You most inter product id with option --id</error>');
             $output->writeln(' ');
 
             return Command::FAILURE;
         }
-        $product->delete($id);
-        $output->writeln('Your product deleted.');
+
+        $isDeleted = $product->delete($id);
+        if ($isDeleted) {
+            $output->writeln('Your product deleted.');
+        }else {
+            $output->writeln('Your product ID not found!');
+        }
 
         $output->writeln(' ');
 

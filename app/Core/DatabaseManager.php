@@ -50,11 +50,13 @@ class DatabaseManager
         --$id;
 
         if (! isset($this->data[$table][$id])) {
-            return;
+            return false;
         }
 
         unset($this->data[$table][$id]);
         $this->put();
+
+        return true;
     }
 
     public function getData()

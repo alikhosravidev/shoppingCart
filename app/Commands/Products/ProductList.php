@@ -20,7 +20,7 @@ class ProductList extends BaseCommand
 
         $output->writeln(' ');
         if (count($products) == 0) {
-            $output->writeln('No product found.');
+            $output->writeln('<comment>No product found.</comment>');
             $output->writeln(' ');
 
             return Command::SUCCESS;
@@ -28,7 +28,7 @@ class ProductList extends BaseCommand
 
         $output->writeln('Your Products:');
         $output->writeln($this->line);
-        $output->writeln('Id'.$this->separator.'Name'.$this->separator.'Price'.$this->separator.'Discount');
+        $output->writeln('<question>Id'.$this->separator.'Name'.$this->separator.'Price'.$this->separator.'Discount</question>');
         $output->writeln($this->line);
 
         foreach ($products as $product) {

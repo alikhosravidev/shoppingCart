@@ -47,7 +47,7 @@ class ProductAdd extends BaseCommand
         $product->store(compact('name', 'price', 'discount'));
 
         $output->writeln(' ');
-        $output->writeln('Your Product successfully added.');
+        $output->writeln('<info>Your Product successfully added.</info>');
         $output->writeln(' ');
 
         return Command::SUCCESS;

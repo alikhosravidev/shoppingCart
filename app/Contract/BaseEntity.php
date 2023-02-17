@@ -44,7 +44,7 @@ class BaseEntity
 
     public function delete(int $id)
     {
-        $this->database->delete($this->getTableName(), $id);
+        return $this->database->delete($this->getTableName(), $id);
     }
 
     public function getTableName()
