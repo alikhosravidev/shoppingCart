@@ -8,9 +8,14 @@ return [
 
     'commands' => [
         // products
-        \App\Commands\Products\ProductList::class,
-        \App\Commands\Products\ProductAdd::class,
-        \App\Commands\Products\ProductDelete::class,
+        \App\Commands\Product\ProductList::class,
+        \App\Commands\Product\ProductAdd::class,
+        \App\Commands\Product\ProductDelete::class,
+
+        // units
+        \App\Commands\Unit\UnitList::class,
+        \App\Commands\Unit\UnitAdd::class,
+        \App\Commands\Unit\UnitDelete::class,
     ],
 
 ];

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Commands\Products;
+namespace App\Commands\Product;
 
 use App\Contract\BaseCommand;
 use App\Entities\Product;
@@ -12,7 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'product:list')]
 class ProductList extends BaseCommand
 {
-    protected $entity = Product::class;
+    protected string $entity = Product::class;
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -31,8 +31,9 @@ class ProductList extends BaseCommand
         $output->writeln('<question>Id'.$this->separator.'Name'.$this->separator.'Price'.$this->separator.'Discount</question>');
         $output->writeln($this->line);
 
-        foreach ($products as $product) {
-            $output->writeln($product['id'].$this->separator.$product['name'].$this->separator.number_format($product['price']).$this->separator.$product['discount'].'%');
+        foreach ($products as $id => $product) {
+
+            $output->writeln(++$id.$this->separator.$product['name'].$this->separator.number_format($product['price']).$this->separator.$product['discount'].'%');
             $output->writeln($this->line);
         }
         $output->writeln(' ');

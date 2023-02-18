@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Commands\Products;
+namespace App\Commands\Product;
 
 use App\Contract\BaseCommand;
 use App\Entities\Product;
@@ -15,13 +15,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'product:add')]
 class ProductAdd extends BaseCommand
 {
-    protected $entity = Product::class;
+    protected string $entity = Product::class;
 
     protected function configure(): void
     {
         $this
-            ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Product name')
-            ->addOption('price', null, InputOption::VALUE_OPTIONAL, 'Product price')
+            ->addOption('name', null, InputOption::VALUE_REQUIRED, 'Product name')
+            ->addOption('price', null, InputOption::VALUE_REQUIRED, 'Product price')
             ->addOption('discount', null, InputOption::VALUE_OPTIONAL, 'Product discount');
     }
 

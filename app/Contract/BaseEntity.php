@@ -2,38 +2,32 @@
 
 namespace App\Contract;
 
+use App\Core\Container;
 use App\Core\DatabaseManager;
 
 class BaseEntity
 {
-    protected array $data = [];
-
-    public function __construct(protected DatabaseManager $database)
+    public function __construct(protected DatabaseManager $database, protected Container $container)
     {
-        $this->data = $this->database->select($this->getTableName()) ?? [];
     }
 
     protected function getLastId(): int
     {
-        return count($this->data);
-    }
-
-    protected function getNewId(): int
-    {
-        $lastId = $this->getLastId();
-
-        return ++$lastId;
+        return count($this->all());
     }
 
     public function all(): array
     {
-        return $this->data;
+        return $this->database->select($this->getTableName()) ?? [];
+    }
+
+    public function find($id): ?array
+    {
+        return $this->database->select($this->getTableName(), $id);
     }
 
     public function store(array $data)
     {
-        $data['id'] = $data['id'] ?? $this->getNewId();
-
         $this->database->store($this->getTableName(), $data);
     }
 
@@ -42,12 +36,12 @@ class BaseEntity
         $this->database->update($this->getTableName(), $id, $data);
     }
 
-    public function delete(int $id)
+    public function delete(int $id): bool
     {
         return $this->database->delete($this->getTableName(), $id);
     }
 
-    public function getTableName()
+    public function getTableName(): string
     {
         return $this->table;
     }

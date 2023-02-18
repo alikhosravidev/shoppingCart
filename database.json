@@ -1,1 +1,1 @@
-{"products":[{"name":"test","price":"43000","discount":0,"id":1},{"name":"test","price":"43000","discount":0,"id":2}]}
+{"products":[{"name":"PS5","price":"2500","discount":0},{"name":"xbox","price":"5000","discount":"10"}],"units":[{"name":"console","products":["1","2"],"price":null,"discount":null}]}
