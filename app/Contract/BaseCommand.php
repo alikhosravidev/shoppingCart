@@ -6,7 +6,6 @@ use Symfony\Component\Console\Command\Command;
 
 class BaseCommand extends Command
 {
-    protected string $line = '----------------------------------------------------------';
 
     protected string $separator = '      |      ';
 
@@ -16,5 +15,19 @@ class BaseCommand extends Command
         $output->writeln(' ');
 
         return Command::FAILURE;
+    }
+
+    protected function writeRow($output, array $data)
+    {
+        $last = count($data);
+        foreach ($data as $i => $item) {
+            if ($last == ++$i) {
+                $output->writeln($item);
+                continue;
+            }
+            $output->write($item);
+            $output->write($this->separator);
+        }
+        $output->writeln($this->line);
     }
 }

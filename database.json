@@ -1,1 +1,48 @@
-{"products":[{"name":"PS5","price":"2500","discount":0,"id":1},{"name":"xbox","price":"5000","discount":15,"id":2}],"units":[{"name":"console","products":["1","2"],"price":null,"discount":null,"id":1}]}
+{
+  "products": [
+    {
+      "name": "PS5",
+      "price": "2500",
+      "discount": 0,
+      "id": 1
+    },
+    {
+      "name": "xbox",
+      "price": "5000",
+      "discount": 15,
+      "id": 2
+    }
+  ],
+  "units": [
+    {
+      "name": "console",
+      "products": [
+        "1",
+        "2"
+      ],
+      "price": null,
+      "discount": null,
+      "id": 1
+    },
+    {
+      "name": "Magic",
+      "products": [
+        "1",
+        "2"
+      ],
+      "price": "4500",
+      "discount": null,
+      "id": 2
+    },
+    {
+      "name": "test",
+      "products": [
+        "1",
+        "2"
+      ],
+      "price": "5000",
+      "discount": "20",
+      "id": 3
+    }
+  ]
+}

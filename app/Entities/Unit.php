@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Contract\BaseEntity;
+use App\Utilities\PriceCalculator;
 
 /**
  * @property-read int $id
@@ -36,10 +37,10 @@ class Unit extends BaseEntity
 
         $unitPrice = 0;
         $products = $this->getProduts($unitId);
-        foreach ($products as $id => $product) {
+        foreach ($products as $product) {
             $price = $product['price'];
             if ($product['discount'] != 0) {
-                $price = self::getFinalPrice($price, $product['discount']);
+                $price = PriceCalculator::getFinalPrice($price, $product['discount']);
             }
             $unitPrice += $price;
         }
@@ -49,23 +50,28 @@ class Unit extends BaseEntity
 
     public function getPriceWithoutDiscount($unitId)
     {
+        $unit = $this->find($unitId);
+
+        if (isset($unit['price'])) {
+            return $unit['price'];
+        }
+
+        return $this->getDefaultPrice($unitId);
+    }
+
+    public function getDefaultPrice($unitId)
+    {
         $unitPrice = 0;
         $products = $this->getProduts($unitId);
-        foreach ($products as $id => $product) {
+        foreach ($products as $product) {
             $unitPrice += $product['price'];
         }
 
         return $unitPrice;
     }
 
-    public function getDiscount($unitId)
+    public function getDefaultDiscount($unitId)
     {
-        $unit = $this->find($unitId);
-
-        if (isset($unit['discount'])) {
-            return $unit['discount'];
-        }
-
         $unitPrice = $this->getPrice($unitId);
         $unitPriceWithoutDiscount = $this->getPriceWithoutDiscount($unitId);
         $discountAmount = $unitPriceWithoutDiscount - $unitPrice;
@@ -84,17 +90,5 @@ class Unit extends BaseEntity
         }
 
         return $productIds;
-    }
-
-    public static function discountCalculator($price, $discount): int
-    {
-        return ($price * $discount) / 100;
-    }
-
-    public static function getFinalPrice($price, $discount): int
-    {
-        $discountAmount = self::discountCalculator($price, $discount);
-
-        return $price - $discountAmount;
     }
 }

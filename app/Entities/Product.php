@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Contract\BaseEntity;
+use App\Utilities\PriceCalculator;
 
 /**
  * @property-read int $id
@@ -13,6 +14,4 @@ use App\Contract\BaseEntity;
 class Product extends BaseEntity
 {
     protected string $table = 'products';
-
-
 }
