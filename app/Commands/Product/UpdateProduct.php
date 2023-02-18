@@ -36,9 +36,9 @@ class UpdateProduct extends BaseCommand
             return $this->failed($output, 'Product ID not found!');
         }
 
-        $name = $input->getOption('name') ?? $product['name'];
-        $price = $input->getOption('price') ?? $product['price'];
-        $discount = $input->getOption('discount') ?? $product['discount'];
+        $name = $input->getOption('name') ?? $product->name;
+        $price = $input->getOption('price') ?? $product->price;
+        $discount = $input->getOption('discount') ?? $product->discount;
 
         Product::query()->update($id, compact('name', 'price', 'discount'));
 

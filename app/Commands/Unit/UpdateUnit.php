@@ -40,15 +40,15 @@ class UpdateUnit extends BaseCommand
             return $this->failed($output, 'Unit ID not found!');
         }
 
-        $name = $input->getOption('name') ?? $unit['name'];
+        $name = $input->getOption('name') ?? $unit->name;
         $products = $input->getOption('products');
         if ($products) {
             $products = explode(',', $products);
         } else {
-            $products = $unit['products'];
+            $products = $unit->products;
         }
-        $price = $input->getOption('price') ?? $unit['price'];
-        $discount = $input->getOption('discount') ?? $unit['discount'];
+        $price = $input->getOption('price') ?? $unit->price;
+        $discount = $input->getOption('discount') ?? $unit->discount;
 
         Unit::query()->update($id, compact('name', 'products', 'price', 'discount'));
 
