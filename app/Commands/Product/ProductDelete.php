@@ -7,8 +7,8 @@ use App\Entities\Product;
 use App\Entities\Unit;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'product:delete')]
@@ -17,15 +17,15 @@ class ProductDelete extends BaseCommand
     protected function configure(): void
     {
         $this
-            ->addOption('id', null, InputOption::VALUE_REQUIRED, 'The id of the product you want to remove');
+            ->addArgument('id', null, InputArgument::REQUIRED, 'The id of the product you want to remove');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(' ');
-        $id = $input->getOption('id');
+        $id = $input->getArgument('id');
         if (! is_numeric($id)) {
-            return $this->failed($output, 'You most inter product id with option --id');
+            return $this->failed($output, 'You most inter argument product id');
         }
 
         $product = Product::query()->find($id);
