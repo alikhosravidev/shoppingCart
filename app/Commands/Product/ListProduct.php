@@ -24,13 +24,15 @@ class ListProduct extends BaseCommand
         }
 
         $output->writeln($this->line);
-        $this->writeRow($output, ['<question>Id', 'Name', 'Price', 'Discount', 'Final price</question>']);
+        $this->writeRow($output, [
+            '<question>ID', 'Name', 'Price', 'Discount', 'Final price</question>',
+        ]);
 
         foreach ($products as $product) {
             $this->writeRow($output, [
-                                  $product->id, $product->name, number_format($product->price), $product->discount.'%',
-                                  number_format(PriceCalculator::getFinalPrice($product->price, $product->discount)),
-                              ]);
+                $product->id, $product->name, number_format($product->price), $product->discount.'%',
+                number_format($product->getFinalPrice()),
+            ]);
         }
         $output->writeln(' ');
 

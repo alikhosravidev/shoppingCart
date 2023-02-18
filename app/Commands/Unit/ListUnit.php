@@ -27,7 +27,7 @@ class ListUnit extends BaseCommand
 
         $output->writeln($this->line);
         $this->writeRow($output, [
-            '<question>Id', 'Name', 'Products', 'Price', 'Discount', 'Final price</question>',
+            '<question>ID', 'Name', 'Products', 'Price', 'Discount', 'Final price</question>',
         ]);
 
         foreach ($units as $unit) {
