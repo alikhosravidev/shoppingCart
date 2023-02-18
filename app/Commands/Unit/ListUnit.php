@@ -31,12 +31,9 @@ class ListUnit extends BaseCommand
         ]);
 
         foreach ($units as $unit) {
-            $id = $unit['id'];
-            $price = Unit::query()->getPriceWithoutDiscount($id);
-            $discount = $unit['discount'] ?? 0;
             $this->writeRow($output, [
-                $id, $unit['name'], json_encode($unit['products']), number_format($price),
-                $discount.'%', number_format(PriceCalculator::getFinalPrice($price, $discount))
+                $unit->id, $unit->name, json_encode($unit->products), number_format($unit->getPrice()),
+                $unit->getDiscount().'%', number_format($unit->getFinalPrice())
             ]);
         }
         $output->writeln(' ');

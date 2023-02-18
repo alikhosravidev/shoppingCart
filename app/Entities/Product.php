@@ -13,4 +13,20 @@ use App\Contract\BaseEntity;
 class Product extends BaseEntity
 {
     protected string $table = 'products';
+
+    public function getFinalPrice(): float|int
+    {
+        if ($this->discount == 0) {
+            return $this->price;
+        }
+
+        $discountAmount = $this->getDiscountAmount();
+
+        return $this->price - $discountAmount;
+    }
+
+    public function getDiscountAmount(): float|int
+    {
+        return floor(($this->price * $this->discount) / 100);
+    }
 }

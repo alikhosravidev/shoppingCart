@@ -33,7 +33,7 @@ class DeleteProduct extends BaseCommand
             return $this->failed($output, 'Product ID not found!');
         }
 
-        if (in_array($id, Unit::query()->getAllUnitProductIds())) {
+        if (in_array($id, Unit::getAllUnitProductIds())) {
             return $this->failed($output, 'You cannot remove this product because it is in a unit.');
         }
 

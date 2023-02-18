@@ -8,6 +8,8 @@ class BaseEntity
 {
     protected DatabaseManager $database;
 
+    protected array $properties;
+
     public function __construct()
     {
         $this->database = resolve(DatabaseManager::class);
@@ -32,12 +34,25 @@ class BaseEntity
 
     public function all(): array
     {
-        return $this->database->select($this->getTableName()) ?? [];
+        $data = $this->database->select($this->getTableName()) ?? [];
+        if (empty($data)) {
+            return [];
+        }
+        $items = [];
+        foreach ($data as $item) {
+            $obj = (new static);
+            $obj->setProperties($item);
+            $items[] = $obj;
+        }
+
+        return $items;
     }
 
-    public function find($id): ?array
+    public function find($id): static
     {
-        return $this->database->select($this->getTableName(), $id);
+        $this->setProperties($this->database->select($this->getTableName(), $id));
+
+        return $this;
     }
 
     public function create(array $data)
@@ -62,5 +77,15 @@ class BaseEntity
     public function getTableName(): string
     {
         return $this->table;
+    }
+
+    public function setProperties($data)
+    {
+        $this->properties = $data;
+    }
+
+    public function __get(string $name)
+    {
+        return $this->properties[$name] ?? null;
     }
 }

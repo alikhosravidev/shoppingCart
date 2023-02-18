@@ -28,8 +28,8 @@ class ListProduct extends BaseCommand
 
         foreach ($products as $product) {
             $this->writeRow($output, [
-                                  $product['id'], $product['name'], number_format($product['price']), $product['discount'].'%',
-                                  number_format(PriceCalculator::getFinalPrice($product['price'], $product['discount'])),
+                                  $product->id, $product->name, number_format($product->price), $product->discount.'%',
+                                  number_format(PriceCalculator::getFinalPrice($product->price, $product->discount)),
                               ]);
         }
         $output->writeln(' ');

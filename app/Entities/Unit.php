@@ -16,79 +16,97 @@ class Unit extends BaseEntity
 {
     protected string $table = 'units';
 
-    public function getProduts($unitId)
+    public static function getAllUnitProductIds(): array
     {
-        $unit = $this->find($unitId);
+        $productIds = [];
+        foreach (static::query()->all() as $unit) {
+            $productIds = array_merge($productIds, $unit->products);
+        }
+
+        return $productIds;
+    }
+
+    public function getProduts()
+    {
         $products = [];
-        foreach ($unit['products'] as $id) {
+        foreach ($this->products as $id) {
             $products[$id] = Product::query()->find($id);
         }
 
         return $products;
     }
 
-    public function getPrice($unitId)
+    public function getTotalProductPrice()
     {
-        $unit = $this->find($unitId);
-
-        if (isset($unit['price'])) {
-            return $unit['price'];
-        }
-
-        $unitPrice = 0;
-        $products = $this->getProduts($unitId);
+        $total = 0;
+        $products = $this->getProduts();
         foreach ($products as $product) {
-            $price = $product['price'];
-            if ($product['discount'] != 0) {
-                $price = PriceCalculator::getFinalPrice($price, $product['discount']);
-            }
-            $unitPrice += $price;
+            $total += $product->price;
         }
 
-        return $unitPrice;
+        return $total;
     }
 
-    public function getPriceWithoutDiscount($unitId)
+    public function getTotalProductFinalPrice()
     {
-        $unit = $this->find($unitId);
-
-        if (isset($unit['price'])) {
-            return $unit['price'];
-        }
-
-        return $this->getDefaultPrice($unitId);
-    }
-
-    public function getDefaultPrice($unitId)
-    {
-        $unitPrice = 0;
-        $products = $this->getProduts($unitId);
+        $total = 0;
+        $products = $this->getProduts();
         foreach ($products as $product) {
-            $unitPrice += $product['price'];
+            $total += $product->getFinalPrice();
         }
 
-        return $unitPrice;
+        return $total;
     }
 
-    public function getDefaultDiscount($unitId)
+    public function getPrice()
     {
-        $unitPrice = $this->getPrice($unitId);
-        $unitPriceWithoutDiscount = $this->getPriceWithoutDiscount($unitId);
-        $discountAmount = $unitPriceWithoutDiscount - $unitPrice;
-        if ($discountAmount == 0) {
+        if ($this->price) {
+            return $this->price;
+        }
+
+        return $this->getTotalProductPrice();
+    }
+
+    public function getFinalPrice(): float|int
+    {
+        if ($this->discount && $this->price) {
+            $discountAmount = floor(($this->price * $this->discount) / 100);
+
+            return $this->price - $discountAmount;
+        }
+
+        if ($this->discount) {
+            $price = $this->getTotalProductPrice();
+            $discountAmount = floor(($price * $this->discount) / 100);
+
+            return $price - $discountAmount;
+        }
+
+        if ($this->price) {
+            return $this->price;
+        }
+
+        return $this->getTotalProductFinalPrice();
+    }
+
+    public function getDiscount()
+    {
+        if ($this->discount && $this->price) {
+            return $this->discount;
+        }
+
+        if ($this->discount) {
+            return $this->discount;
+        }
+
+        if ($this->price) {
             return 0;
         }
 
-        return floor(($discountAmount * 100) / $unitPriceWithoutDiscount);
-    }
+        $price = $this->getPrice();
+        $finalPrice = $this->getFinalPrice();
+        $discountAmount = $price - $finalPrice;
 
-    public function getAllUnitProductIds()
-    {
-        $productIds = [];
-        foreach ($this->all() as $unit) {
-            $productIds = array_merge($productIds, $unit['products']);
-        }
-
-        return $productIds;
+        return ($discountAmount * 100) / $price;
     }
 }
