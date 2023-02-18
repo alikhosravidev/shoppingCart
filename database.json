@@ -1,1 +1,70 @@
-{"products":[{"name":"xbox","price":"5000","discount":0,"id":"1"},{"name":"PS5","price":"5000","discount":"10","id":"2"},{"name":"test","price":"23000","discount":0,"id":3},{"name":"test","price":"23000","discount":0,"id":4}],"units":{"1":{"name":"console","products":["1","2"],"price":"5000","discount":null,"id":"2"}}}
+{
+  "products": [
+    {
+      "name": "xbox",
+      "price": "5000",
+      "discount": 0,
+      "id": "1"
+    },
+    {
+      "name": "PS5",
+      "price": "5000",
+      "discount": "10",
+      "id": "2"
+    },
+    {
+      "name": "test",
+      "price": "23000",
+      "discount": 0,
+      "id": 3
+    },
+    {
+      "name": "test",
+      "price": "23000",
+      "discount": 0,
+      "id": 4
+    }
+  ],
+  "units": [
+    {
+      "name": "console",
+      "products": [
+        "1",
+        "2"
+      ],
+      "price": "5000",
+      "discount": null,
+      "id": "2"
+    },
+    {
+      "name": "console",
+      "products": [
+        "1",
+        "2"
+      ],
+      "price": null,
+      "discount": "10",
+      "id": "2"
+    },
+    {
+      "name": "console",
+      "products": [
+        "1",
+        "2"
+      ],
+      "price": "5000",
+      "discount": "15",
+      "id": "2"
+    },
+    {
+      "name": "console",
+      "products": [
+        "1",
+        "2"
+      ],
+      "price": null,
+      "discount": null,
+      "id": "2"
+    }
+  ]
+}

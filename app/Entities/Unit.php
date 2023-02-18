@@ -91,10 +91,6 @@ class Unit extends BaseEntity
 
     public function getDiscount()
     {
-        if ($this->discount && $this->price) {
-            return $this->discount;
-        }
-
         if ($this->discount) {
             return $this->discount;
         }
