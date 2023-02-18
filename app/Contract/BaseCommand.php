@@ -2,7 +2,6 @@
 
 namespace App\Contract;
 
-use App\Core\Container;
 use Symfony\Component\Console\Command\Command;
 
 class BaseCommand extends Command
@@ -11,10 +10,11 @@ class BaseCommand extends Command
 
     protected string $separator = '      |      ';
 
-    protected function getEntity(): BaseEntity
+    protected function failed($output, $message, $type = 'error')
     {
-        $container = Container::getInstance();
+        $output->writeln("<$type>$message</$type>");
+        $output->writeln(' ');
 
-        return $container->get($this->entity);
+        return Command::FAILURE;
     }
 }

@@ -15,19 +15,13 @@ class UnitList extends BaseCommand
 {
     protected string $line = '-------------------------------------------------------------------------------';
 
-    protected string $entity = Unit::class;
-
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $entity = $this->getEntity();
-        $units = $entity->all();
+        $units = Unit::query()->all();
 
         $output->writeln(' ');
         if (count($units) == 0) {
-            $output->writeln('<comment>No unit found.</comment>');
-            $output->writeln(' ');
-
-            return Command::SUCCESS;
+            return $this->failed($output, 'No unit found.');
         }
 
         $output->writeln('Units:');
@@ -37,10 +31,13 @@ class UnitList extends BaseCommand
                          .$this->separator.'Discount'.'</question>');
         $output->writeln($this->line);
 
-        foreach ($units as $id => $unit) {
+        foreach ($units as $unit) {
+            $id = $unit['id'];
+            $price = Unit::query()->getPrice($id);
+            $discount = Unit::query()->getDiscount($id);
             $output->writeln(++$id.$this->separator.$unit['name'].$this->separator
                              .json_encode($unit['products']).$this->separator
-                             .number_format($entity->getPrice($id)).$this->separator.$entity->getDiscount($id).'%');
+                             .number_format($price).$this->separator.$discount.'%');
             $output->writeln($this->line);
         }
         $output->writeln(' ');

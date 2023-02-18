@@ -15,8 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'product:add')]
 class ProductAdd extends BaseCommand
 {
-    protected string $entity = Product::class;
-
     protected function configure(): void
     {
         $this
@@ -27,8 +25,6 @@ class ProductAdd extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $product = $this->getEntity();
-
         $name = $input->getOption('name');
         if (! $name) {
             ProductExceptions::invalidName();
@@ -44,7 +40,8 @@ class ProductAdd extends BaseCommand
             ProductExceptions::invalidDiscount();
             return Command::FAILURE;
         }
-        $product->store(compact('name', 'price', 'discount'));
+
+        Product::query()->store(compact('name', 'price', 'discount'));
 
         $output->writeln(' ');
         $output->writeln('<info>Your Product successfully added.</info>');

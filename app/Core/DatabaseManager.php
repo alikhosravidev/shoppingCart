@@ -21,7 +21,7 @@ class DatabaseManager
             return null;
         }
 
-        if (! $id) {
+        if (is_null($id)) {
             return $tableData;
         }
         --$id;

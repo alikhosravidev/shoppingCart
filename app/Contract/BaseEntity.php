@@ -2,18 +2,29 @@
 
 namespace App\Contract;
 
-use App\Core\Container;
 use App\Core\DatabaseManager;
 
 class BaseEntity
 {
-    public function __construct(protected DatabaseManager $database, protected Container $container)
+    public function __construct(protected DatabaseManager $database)
     {
     }
 
     protected function getLastId(): int
     {
         return count($this->all());
+    }
+
+    public function getNewId(): int
+    {
+        $lastId = $this->getLastId();
+
+        return ++$lastId;
+    }
+
+    public static function query()
+    {
+        return resolve(static::class);
     }
 
     public function all(): array
@@ -28,6 +39,8 @@ class BaseEntity
 
     public function store(array $data)
     {
+        $data['id'] = $this->getNewId();
+
         $this->database->store($this->getTableName(), $data);
     }
 

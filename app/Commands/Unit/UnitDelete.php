@@ -15,8 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'unit:delete')]
 class UnitDelete extends BaseCommand
 {
-    protected string $entity = Unit::class;
-
     protected function configure(): void
     {
         $this
@@ -25,24 +23,24 @@ class UnitDelete extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $unit = $this->getEntity();
         $output->writeln(' ');
 
         $id = $input->getOption('id');
         if (! is_numeric($id)) {
-            $output->writeln('<error>You most inter unit id with option --id</error>');
-            $output->writeln(' ');
-
-            return Command::FAILURE;
+            return $this->failed($output, 'You most inter unit id with option --id');
         }
 
-        $isDeleted = $unit->delete($id);
-        if ($isDeleted) {
-            $output->writeln('<info>unit deleted.</info>');
-        }else {
-            $output->writeln('<comment>unit ID not found!</comment>');
+        $product = Unit::query()->find($id);
+        if (! $product) {
+            return $this->failed($output, 'Unit ID not found!');
         }
 
+        $isDeleted = Unit::query()->delete($id);
+        if (! $isDeleted) {
+            return $this->failed($output, 'Process Failed!');
+        }
+
+        $output->writeln('<info>unit deleted.</info>');
         $output->writeln(' ');
 
         return Command::SUCCESS;

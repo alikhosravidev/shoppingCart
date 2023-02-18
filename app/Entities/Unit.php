@@ -17,11 +17,10 @@ class Unit extends BaseEntity
 
     public function getProduts($unitId)
     {
-        $product = $this->container->get(Product::class);
         $unit = $this->find($unitId);
         $products = [];
         foreach ($unit['products'] as $id) {
-            $products[$id] = $product->find($id);
+            $products[$id] = Product::query()->find($id);
         }
 
         return $products;
@@ -50,8 +49,6 @@ class Unit extends BaseEntity
 
     public function getPriceWithoutDiscount($unitId)
     {
-        $unit = $this->find($unitId);
-
         $unitPrice = 0;
         $products = $this->getProduts($unitId);
         foreach ($products as $id => $product) {
@@ -77,6 +74,16 @@ class Unit extends BaseEntity
         }
 
         return floor(($discountAmount * 100) / $unitPriceWithoutDiscount);
+    }
+
+    public function getAllUnitProductIds()
+    {
+        $productIds = [];
+        foreach ($this->all() as $unit) {
+            $productIds = array_merge($productIds, $unit['products']);
+        }
+
+        return $productIds;
     }
 
     public static function discountCalculator($price, $discount): int

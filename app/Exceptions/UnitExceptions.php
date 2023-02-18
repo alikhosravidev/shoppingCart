@@ -30,4 +30,9 @@ class UnitExceptions extends BusinessException
     {
         throw new self(self::INVALID_PRODUCTS);
     }
+
+    public static function someProductNotExists($productId)
+    {
+        throw new self("Product ID $productId dose not exists.");
+    }
 }

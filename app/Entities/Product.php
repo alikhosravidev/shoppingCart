@@ -14,10 +14,5 @@ class Product extends BaseEntity
 {
     protected string $table = 'products';
 
-    public function create($name, $price, $discount)
-    {
-        if ($price < 0) {
 
-        }
-    }
 }

@@ -18,8 +18,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'unit:add')]
 class UnitAdd extends BaseCommand
 {
-    protected string $entity = Unit::class;
-
     protected function configure(): void
     {
         $this
@@ -31,8 +29,6 @@ class UnitAdd extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $unit = $this->getEntity();
-
         $name = $input->getOption('name');
         if (! $name) {
             ProductExceptions::invalidName();
@@ -44,6 +40,13 @@ class UnitAdd extends BaseCommand
         if (! $products || ! is_array($products) || count($products) <= 1) {
             UnitExceptions::invalidProducts();
             return Command::FAILURE;
+        }
+        foreach ($products as $productId) {
+            $product = Product::query()->find($productId);
+            if (! $product) {
+                UnitExceptions::someProductNotExists($productId);
+                return Command::FAILURE;
+            }
         }
 
         $price = $input->getOption('price');
@@ -57,7 +60,7 @@ class UnitAdd extends BaseCommand
             return Command::FAILURE;
         }
 
-        $unit->store(compact('name', 'products', 'price', 'discount'));
+        Unit::query()->store(compact('name', 'products', 'price', 'discount'));
 
         $output->writeln(' ');
         $output->writeln('<info>Unit successfully added.</info>');
