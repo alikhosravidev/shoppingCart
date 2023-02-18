@@ -3,6 +3,7 @@
 namespace App\Commands\Product;
 
 use App\Contract\BaseCommand;
+use App\Core\Event;
 use App\Entities\Product;
 use App\Exceptions\ProductExceptions;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -41,11 +42,14 @@ class CreateProduct extends BaseCommand
             return Command::FAILURE;
         }
 
-        Product::query()->create(compact('name', 'price', 'discount'));
+        $product = Product::query()
+            ->create(compact('name', 'price', 'discount'));
 
         $output->writeln(' ');
         $output->writeln('<info>Product successfully created.</info>');
         $output->writeln(' ');
+
+        Event::dispatch('productCreated', $product);
 
         return Command::SUCCESS;
     }

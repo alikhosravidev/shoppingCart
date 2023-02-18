@@ -2,21 +2,27 @@
 
 namespace App;
 
-use App\Commands\Products\ProductList;
 use App\Core\Config;
 use App\Core\Container;
 use App\Core\DatabaseManager;
+use App\Core\Event;
 use App\Core\Request;
 use App\Core\Response;
+use App\Notifications\ProductCreatedNotification;
 use Symfony\Component\Console\Application;
 
 class Kernel
 {
     protected Container $container;
 
+    protected array $events = [
+        'productCreated' => ProductCreatedNotification::class,
+    ];
+
     public function __construct(protected array $configs)
     {
         $this->register();
+        $this->registerEvents();
         $this->boot();
         $this->registerCommands();
     }
@@ -35,6 +41,13 @@ class Kernel
 
         $response = $container->get(Response::class);
         $container->set(Response::class, $response);
+    }
+
+    protected function registerEvents()
+    {
+        foreach ($this->events as $event => $listener) {
+            Event::listen($event, $listener);
+        }
     }
 
     protected function boot()

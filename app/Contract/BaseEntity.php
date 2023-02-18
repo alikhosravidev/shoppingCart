@@ -55,11 +55,14 @@ class BaseEntity
         return $this;
     }
 
-    public function create(array $data)
+    public function create(array $data): static
     {
         $data['id'] = $this->getNewId();
 
         $this->database->create($this->getTableName(), $data);
+        $this->setProperties($data);
+
+        return $this;
     }
 
     public function update($id, array $data)
