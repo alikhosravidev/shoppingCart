@@ -41,7 +41,7 @@ class ProductAdd extends BaseCommand
             return Command::FAILURE;
         }
 
-        Product::query()->store(compact('name', 'price', 'discount'));
+        Product::query()->create(compact('name', 'price', 'discount'));
 
         $output->writeln(' ');
         $output->writeln('<info>Your Product successfully added.</info>');

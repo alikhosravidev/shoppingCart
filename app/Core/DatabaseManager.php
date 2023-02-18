@@ -29,7 +29,7 @@ class DatabaseManager
         return $tableData[$id] ?? null;
     }
 
-    public function store($table, $data)
+    public function create($table, $data)
     {
         $this->data[$table][] = $data;
         $this->put();
@@ -37,10 +37,6 @@ class DatabaseManager
 
     public function update($table, $id, $data)
     {
-        if (! isset($this->data[$table][$id])) {
-            return $this->store($table, $data);
-        }
-
         $this->data[$table][$id] = $data;
         $this->put();
     }

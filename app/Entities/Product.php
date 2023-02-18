@@ -3,7 +3,6 @@
 namespace App\Entities;
 
 use App\Contract\BaseEntity;
-use App\Utilities\PriceCalculator;
 
 /**
  * @property-read int $id

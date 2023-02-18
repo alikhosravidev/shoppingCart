@@ -11,6 +11,7 @@ return [
         \App\Commands\Product\ProductList::class,
         \App\Commands\Product\ProductAdd::class,
         \App\Commands\Product\ProductDelete::class,
+        \App\Commands\Product\ProductUpdate::class,
 
         // units
         \App\Commands\Unit\UnitList::class,

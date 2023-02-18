@@ -60,7 +60,7 @@ class UnitAdd extends BaseCommand
             return Command::FAILURE;
         }
 
-        Unit::query()->store(compact('name', 'products', 'price', 'discount'));
+        Unit::query()->create(compact('name', 'products', 'price', 'discount'));
 
         $output->writeln(' ');
         $output->writeln('<info>Unit successfully added.</info>');

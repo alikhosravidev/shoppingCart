@@ -6,8 +6,11 @@ use App\Core\DatabaseManager;
 
 class BaseEntity
 {
-    public function __construct(protected DatabaseManager $database)
+    protected DatabaseManager $database;
+
+    public function __construct()
     {
+        $this->database = resolve(DatabaseManager::class);
     }
 
     protected function getLastId(): int
@@ -24,7 +27,7 @@ class BaseEntity
 
     public static function query()
     {
-        return resolve(static::class);
+        return (new static);
     }
 
     public function all(): array
@@ -37,15 +40,17 @@ class BaseEntity
         return $this->database->select($this->getTableName(), $id);
     }
 
-    public function store(array $data)
+    public function create(array $data)
     {
         $data['id'] = $this->getNewId();
 
-        $this->database->store($this->getTableName(), $data);
+        $this->database->create($this->getTableName(), $data);
     }
 
-    public function update(int $id, array $data)
+    public function update($id, array $data)
     {
+        $data['id'] = $id;
+
         $this->database->update($this->getTableName(), $id, $data);
     }
 
