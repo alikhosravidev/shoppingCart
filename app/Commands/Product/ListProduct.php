@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'product:list')]
-class ProductList extends BaseCommand
+class ListProduct extends BaseCommand
 {
     protected string $line = '----------------------------------------------------------------------------------';
 

@@ -24,6 +24,7 @@ class DatabaseManager
         if (is_null($id)) {
             return $tableData;
         }
+        // real id is: n - 1
         --$id;
 
         return $tableData[$id] ?? null;
@@ -37,6 +38,8 @@ class DatabaseManager
 
     public function update($table, $id, $data)
     {
+        // real id is: n - 1
+        --$id;
         $this->data[$table][$id] = $data;
         $this->put();
     }

@@ -15,8 +15,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'unit:add')]
-class UnitAdd extends BaseCommand
+#[AsCommand(name: 'unit:create')]
+class CreateUnit extends BaseCommand
 {
     protected function configure(): void
     {
@@ -63,7 +63,7 @@ class UnitAdd extends BaseCommand
         Unit::query()->create(compact('name', 'products', 'price', 'discount'));
 
         $output->writeln(' ');
-        $output->writeln('<info>Unit successfully added.</info>');
+        $output->writeln('<info>Unit successfully created.</info>');
         $output->writeln(' ');
 
         return Command::SUCCESS;

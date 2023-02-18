@@ -13,12 +13,12 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'product:update')]
-class ProductUpdate extends BaseCommand
+class UpdateProduct extends BaseCommand
 {
     protected function configure(): void
     {
         $this
-            ->addArgument('id', null, InputArgument::REQUIRED, 'The id of the product you want to remove')
+            ->addArgument('id', null, InputArgument::REQUIRED, 'The id of the product you want to update')
             ->addOption('name', null, InputOption::VALUE_OPTIONAL, 'Product name')
             ->addOption('price', null, InputOption::VALUE_OPTIONAL, 'Product price')
             ->addOption('discount', null, InputOption::VALUE_OPTIONAL, 'Product discount');
@@ -43,7 +43,7 @@ class ProductUpdate extends BaseCommand
         Product::query()->update($id, compact('name', 'price', 'discount'));
 
         $output->writeln(' ');
-        $output->writeln('<info>Your Product successfully added.</info>');
+        $output->writeln('<info>Product successfully updated.</info>');
         $output->writeln(' ');
 
         return Command::SUCCESS;

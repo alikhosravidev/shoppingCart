@@ -12,8 +12,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'product:add')]
-class ProductAdd extends BaseCommand
+#[AsCommand(name: 'product:create')]
+class CreateProduct extends BaseCommand
 {
     protected function configure(): void
     {
@@ -44,7 +44,7 @@ class ProductAdd extends BaseCommand
         Product::query()->create(compact('name', 'price', 'discount'));
 
         $output->writeln(' ');
-        $output->writeln('<info>Your Product successfully added.</info>');
+        $output->writeln('<info>Product successfully created.</info>');
         $output->writeln(' ');
 
         return Command::SUCCESS;

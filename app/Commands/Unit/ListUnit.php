@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'unit:list')]
-class UnitList extends BaseCommand
+class ListUnit extends BaseCommand
 {
     protected string $line = '-------------------------------------------------------------------------------------------------------';
 

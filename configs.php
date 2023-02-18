@@ -8,15 +8,16 @@ return [
 
     'commands' => [
         // products
-        \App\Commands\Product\ProductList::class,
-        \App\Commands\Product\ProductAdd::class,
-        \App\Commands\Product\ProductDelete::class,
-        \App\Commands\Product\ProductUpdate::class,
+        \App\Commands\Product\ListProduct::class,
+        \App\Commands\Product\CreateProduct::class,
+        \App\Commands\Product\DeleteProduct::class,
+        \App\Commands\Product\UpdateProduct::class,
 
         // units
-        \App\Commands\Unit\UnitList::class,
-        \App\Commands\Unit\UnitAdd::class,
-        \App\Commands\Unit\UnitDelete::class,
+        \App\Commands\Unit\ListUnit::class,
+        \App\Commands\Unit\CreateUnit::class,
+        \App\Commands\Unit\DeleteUnit::class,
+        \App\Commands\Unit\UpdateUnit::class,
     ],
 
 ];

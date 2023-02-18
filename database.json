@@ -1,1 +1,1 @@
-{"products":[{"name":"PS5","price":"2500","discount":0,"id":1},{"name":"xbox","price":"2500","discount":0,"id":"1"}],"units":[{"name":"console","products":["1","2"],"price":null,"discount":null,"id":1}]}
+{"products":[{"name":"xbox","price":"2500","discount":0,"id":"1"},{"name":"PS5","price":"4200","discount":"10","id":2}],"units":[{"name":"console","products":["1","2"],"price":null,"discount":null,"id":"1"}]}

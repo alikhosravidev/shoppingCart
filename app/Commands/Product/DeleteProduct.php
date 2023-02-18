@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'product:delete')]
-class ProductDelete extends BaseCommand
+class DeleteProduct extends BaseCommand
 {
     protected function configure(): void
     {

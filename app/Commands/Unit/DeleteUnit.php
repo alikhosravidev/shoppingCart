@@ -12,7 +12,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'unit:delete')]
-class UnitDelete extends BaseCommand
+class DeleteUnit extends BaseCommand
 {
     protected function configure(): void
     {
