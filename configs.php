@@ -26,6 +26,7 @@ return [
         // Cart
         \App\Commands\Cart\AddToCart::class,
         \App\Commands\Cart\DeleteFromCart::class,
+        \App\Commands\Cart\CartList::class,
     ],
 
 ];

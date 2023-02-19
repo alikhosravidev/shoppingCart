@@ -2,15 +2,14 @@
 
 namespace App\Commands\Cart;
 
+use App\Cart\Cart;
 use App\Contract\BaseCommand;
-use App\Contract\Cart\Cart;
 use App\Entities\Product;
 use App\Entities\Unit;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 #[AsCommand(name: 'cart:delete')]
@@ -46,7 +45,7 @@ class DeleteFromCart extends BaseCommand
         }
 
         $entityType = $this->entityMap[$type];
-        $cart = new \App\Cart\Cart;
+        $cart = new Cart;
         $cartId = $cart->generateRawId($id, $entityType);
         if (! $cart->exists($cartId)) {
             return $this->failed($output, 'Your item dose not exists.');

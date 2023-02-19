@@ -2,8 +2,8 @@
 
 namespace App\Commands\Cart;
 
+use App\Cart\Cart;
 use App\Contract\BaseCommand;
-use App\Contract\Cart\Cart;
 use App\Entities\Product;
 use App\Entities\Unit;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -53,7 +53,7 @@ class AddToCart extends BaseCommand
         }
         $quantity = $input->getOption('quantity') ?? 1;
 
-        $cart = new \App\Cart\Cart();
+        $cart = new Cart();
         $cart->add($id, $entityType, $entity->name, $quantity, $entity->getFinalPrice());
 
         $output->writeln("<info>$type successfully add to cart.</info>");

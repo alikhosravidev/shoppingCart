@@ -82,11 +82,6 @@ class Cart
     {
     }
 
-    public function getItem($id): CartItem
-    {
-        return new CartItem($this->items[$id]);
-    }
-
     public function generateRawId($id, $type)
     {
         return md5($id.$type);
