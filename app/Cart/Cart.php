@@ -86,4 +86,9 @@ class Cart
     {
         return md5($id.$type);
     }
+
+    public function flash()
+    {
+        $this->store->flash();
+    }
 }

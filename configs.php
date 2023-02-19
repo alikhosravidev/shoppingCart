@@ -28,6 +28,7 @@ return [
         \App\Commands\Cart\DeleteFromCart::class,
         \App\Commands\Cart\CartList::class,
         \App\Commands\Cart\CartTotal::class,
+        \App\Commands\Cart\CartFlash::class,
     ],
 
 ];

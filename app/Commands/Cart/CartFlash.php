@@ -8,27 +8,19 @@ use App\Entities\Product;
 use App\Entities\Unit;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'cart:total')]
-class CartTotal extends BaseCommand
+#[AsCommand(name: 'cart:flash')]
+class CartFlash extends BaseCommand
 {
-    protected string $line = '-------------------';
-
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $cart = new Cart;
-        $items = $cart->getItems();
-
         $output->writeln(' ');
-        if (count($items) == 0) {
-            return $this->failed($output, 'Cart is empty.');
-        }
-
-        $output->writeln('<question>Total price</question>');
-        $output->writeln($this->line);
-        $output->writeln($cart->total());
+        $cart = new Cart;
+        $cart->flash();
+        $output->writeln("<info>Cart flashed.</info>");
         $output->writeln(' ');
 
         return Command::SUCCESS;

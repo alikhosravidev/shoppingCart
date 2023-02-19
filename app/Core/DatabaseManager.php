@@ -63,9 +63,13 @@ class DatabaseManager
         return $this->data ?? [];
     }
 
-    public function flash()
+    public function flash($table = null)
     {
-        $this->data = [];
+        if ($table) {
+            $this->data[$table] = [];
+        }else {
+            $this->data = [];
+        }
         $this->put();
     }
 

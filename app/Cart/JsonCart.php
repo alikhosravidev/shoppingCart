@@ -57,6 +57,6 @@ class JsonCart implements CartStore
 
     public function flash()
     {
-        $this->database->flash();
+        $this->database->flash($this->table);
     }
 }
