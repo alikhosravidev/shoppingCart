@@ -69,11 +69,11 @@ class BaseEntity
         return $this;
     }
 
-    public function update($id, array $data)
+    public function update($id, array $data): bool
     {
         $data['id'] = $id;
 
-        $this->database->update($this->getTableName(), $id, $data);
+        return $this->database->update($this->getTableName(), $id, $data);
     }
 
     public function delete(int $id): bool

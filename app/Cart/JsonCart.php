@@ -52,6 +52,8 @@ class JsonCart implements CartStore
 
     public function update($id, array $data): bool
     {
+        $data['id'] = $id;
+
         return $this->database->update($this->table, $id, $data);
     }
 

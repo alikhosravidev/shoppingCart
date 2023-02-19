@@ -3,6 +3,7 @@
 namespace App\Commands\Product;
 
 use App\Contract\BaseCommand;
+use App\Core\Event;
 use App\Entities\Product;
 use App\Exceptions\ProductExceptions;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -26,6 +27,7 @@ class UpdateProduct extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln(' ');
         $id = $input->getArgument('id');
         if (! is_numeric($id)) {
             return $this->failed($output, 'You most inter argument product id');
@@ -40,11 +42,16 @@ class UpdateProduct extends BaseCommand
         $price = $input->getOption('price') ?? $product->price;
         $discount = $input->getOption('discount') ?? $product->discount;
 
-        Product::query()->update($id, compact('name', 'price', 'discount'));
+        $updated = Product::query()->update($id, compact('name', 'price', 'discount'));
 
-        $output->writeln(' ');
+        if (! $updated) {
+            return $this->failed($output, 'Process Failed!');
+        }
+
         $output->writeln('<info>Product successfully updated.</info>');
         $output->writeln(' ');
+
+        Event::dispatch('productUpdated', Product::query()->find($id));
 
         return Command::SUCCESS;
     }

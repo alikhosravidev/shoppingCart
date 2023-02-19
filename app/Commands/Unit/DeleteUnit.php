@@ -3,6 +3,7 @@
 namespace App\Commands\Unit;
 
 use App\Contract\BaseCommand;
+use App\Core\Event;
 use App\Entities\Unit;
 use App\Entities\User;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -23,7 +24,6 @@ class DeleteUnit extends BaseCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(' ');
-
         $id = $input->getArgument('id');
         if (! is_numeric($id)) {
             return $this->failed($output, 'You most inter argument unit id');
@@ -41,6 +41,8 @@ class DeleteUnit extends BaseCommand
 
         $output->writeln('<info>unit deleted.</info>');
         $output->writeln(' ');
+
+        Event::dispatch('unitDeleted', $unit);
 
         return Command::SUCCESS;
     }

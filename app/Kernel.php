@@ -10,6 +10,8 @@ use App\Core\DatabaseManager;
 use App\Core\Event;
 use App\Core\Request;
 use App\Core\Response;
+use App\Listeners\UpdateCartAfterEntityDeleted;
+use App\Listeners\UpdateCartAfterEntityUpdated;
 use App\Notifications\ProductCreatedNotification;
 use Symfony\Component\Console\Application;
 
@@ -19,6 +21,10 @@ class Kernel
 
     protected array $events = [
         'productCreated' => ProductCreatedNotification::class,
+        'productUpdated' => UpdateCartAfterEntityUpdated::class,
+        'unitUpdated' => UpdateCartAfterEntityUpdated::class,
+        'unitDeleted' => UpdateCartAfterEntityDeleted::class,
+        'productDeleted' => UpdateCartAfterEntityDeleted::class,
     ];
 
     public function __construct(protected array $configs)

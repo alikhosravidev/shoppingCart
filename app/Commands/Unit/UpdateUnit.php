@@ -3,6 +3,7 @@
 namespace App\Commands\Unit;
 
 use App\Contract\BaseCommand;
+use App\Core\Event;
 use App\Entities\Product;
 use App\Entities\Unit;
 use App\Entities\User;
@@ -30,6 +31,7 @@ class UpdateUnit extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln(' ');
         $id = $input->getArgument('id');
         if (! is_numeric($id)) {
             return $this->failed($output, 'You most inter argument unit id');
@@ -50,11 +52,16 @@ class UpdateUnit extends BaseCommand
         $price = $input->getOption('price') ?? $unit->price;
         $discount = $input->getOption('discount') ?? $unit->discount;
 
-        Unit::query()->update($id, compact('name', 'products', 'price', 'discount'));
+        $updated = Unit::query()->update($id, compact('name', 'products', 'price', 'discount'));
 
-        $output->writeln(' ');
+        if (! $updated) {
+            return $this->failed($output, 'Process Failed!');
+        }
+
         $output->writeln('<info>Unit successfully updated.</info>');
         $output->writeln(' ');
+
+        Event::dispatch('unitUpdated', Unit::query()->find($id));
 
         return Command::SUCCESS;
     }

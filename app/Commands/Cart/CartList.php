@@ -39,7 +39,7 @@ class CartList extends BaseCommand
         foreach ($items as $item) {
             $type = array_search($item['entity_type'], $this->entityMap);
             $this->writeRow($output, [
-                $item['entity_id'], $type, $item['name'], $item['price'], $item['quantity'],
+                $item['entity_id'], $type, $item['name'], number_format($item['price']), $item['quantity'],
             ]);
         }
         $output->writeln(' ');

@@ -3,6 +3,7 @@
 namespace App\Commands\Product;
 
 use App\Contract\BaseCommand;
+use App\Core\Event;
 use App\Entities\Product;
 use App\Entities\Unit;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -44,6 +45,8 @@ class DeleteProduct extends BaseCommand
 
         $output->writeln('<info>product deleted.</info>');
         $output->writeln(' ');
+
+        Event::dispatch('productDeleted', $product);
 
         return Command::SUCCESS;
     }

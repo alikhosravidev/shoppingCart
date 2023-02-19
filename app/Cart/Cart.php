@@ -68,6 +68,19 @@ class Cart
         }
     }
 
+    public function updatePrice($id, $price)
+    {
+        $item = $this->find($id);
+        $item['price'] = $price;
+
+        $this->store->update($id, $item);
+    }
+
+    public function find($id)
+    {
+        return $this->items[$id] ?? null;
+    }
+
     public function exists($id): bool
     {
         return isset($this->items[$id]);
