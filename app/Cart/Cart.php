@@ -31,7 +31,7 @@ class Cart
         }
 
         foreach ($this->items as $item) {
-            $total += $item->getPrice();
+            $total += $item['price'] * $item['quantity'];
         }
 
         return $total;
