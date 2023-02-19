@@ -15,11 +15,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'cart:delete')]
 class DeleteFromCart extends BaseCommand
 {
-    protected array $entityMap = [
-        'product' => Product::class,
-        'unit' => Unit::class,
-    ];
-
     protected function configure(): void
     {
         $this
@@ -29,6 +24,7 @@ class DeleteFromCart extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $cart = new Cart;
         $output->writeln(' ');
         $id = $input->getArgument('id');
         if (! is_numeric($id)) {
@@ -40,12 +36,11 @@ class DeleteFromCart extends BaseCommand
             return $this->failed($output, 'You most inter argument item type');
         }
 
-        if (! in_array($type, array_keys($this->entityMap))) {
+        if (! in_array($type, array_keys($cart->entityMap))) {
             return $this->failed($output, 'Your type is invalid (valid types: product, unit)');
         }
 
-        $entityType = $this->entityMap[$type];
-        $cart = new Cart;
+        $entityType = $cart->entityMap[$type];
         $cartId = $cart->generateRawId($id, $entityType);
         if (! $cart->exists($cartId)) {
             return $this->failed($output, 'Your item dose not exists.');

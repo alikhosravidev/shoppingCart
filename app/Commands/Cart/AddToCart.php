@@ -16,11 +16,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 #[AsCommand(name: 'cart:add')]
 class AddToCart extends BaseCommand
 {
-    protected array $entityMap = [
-        'product' => Product::class,
-        'unit' => Unit::class,
-    ];
-
     protected function configure(): void
     {
         $this
@@ -31,6 +26,7 @@ class AddToCart extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $cart = new Cart();
         $output->writeln(' ');
         $id = $input->getArgument('id');
         if (! is_numeric($id)) {
@@ -42,18 +38,17 @@ class AddToCart extends BaseCommand
             return $this->failed($output, 'You most inter argument item type');
         }
 
-        if (! in_array($type, array_keys($this->entityMap))) {
+        if (! in_array($type, array_keys($cart->entityMap))) {
             return $this->failed($output, 'Your type is invalid (valid types: product, unit)');
         }
 
-        $entityType = $this->entityMap[$type];
+        $entityType = $cart->entityMap[$type];
         $entity = $entityType::query()->find($id);
         if (! $entity->exists()) {
             return $this->failed($output, "$type ID not found!");
         }
         $quantity = $input->getOption('quantity') ?? 1;
 
-        $cart = new Cart();
         $cart->add($id, $entityType, $entity->name, $quantity, $entity->getFinalPrice());
 
         $output->writeln("<info>$type successfully add to cart.</info>");

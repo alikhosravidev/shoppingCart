@@ -16,11 +16,6 @@ class CartList extends BaseCommand
 {
     protected string $line = '----------------------------------------------------------------------------------';
 
-    protected array $entityMap = [
-        'product' => Product::class,
-        'unit' => Unit::class,
-    ];
-
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $cart = new Cart;
@@ -37,7 +32,7 @@ class CartList extends BaseCommand
         ]);
 
         foreach ($items as $item) {
-            $type = array_search($item['entity_type'], $this->entityMap);
+            $type = array_search($item['entity_type'], $cart->entityMap);
             $this->writeRow($output, [
                 $item['entity_id'], $type, $item['name'], number_format($item['price']), $item['quantity'],
             ]);

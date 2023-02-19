@@ -3,6 +3,8 @@
 namespace App\Cart;
 
 use App\Contract\Cart\CartStore;
+use App\Entities\Product;
+use App\Entities\Unit;
 use App\Exceptions\CartExceptions;
 
 class Cart
@@ -10,6 +12,11 @@ class Cart
     protected array $items;
 
     protected CartStore $store;
+
+    public array $entityMap = [
+        'product' => Product::class,
+        'unit' => Unit::class,
+    ];
 
     public function __construct()
     {
