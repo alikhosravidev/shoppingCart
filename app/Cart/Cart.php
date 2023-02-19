@@ -13,11 +13,6 @@ class Cart
 
     protected CartStore $store;
 
-    public array $entityMap = [
-        'product' => Product::class,
-        'unit' => Unit::class,
-    ];
-
     public function __construct()
     {
         $this->store = resolve(CartStore::class);

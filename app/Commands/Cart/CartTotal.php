@@ -2,10 +2,8 @@
 
 namespace App\Commands\Cart;
 
-use App\Cart\Cart;
 use App\Contract\BaseCommand;
-use App\Entities\Product;
-use App\Entities\Unit;
+use App\Facades\Cart;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,17 +16,10 @@ class CartTotal extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $cart = new Cart;
-        $items = $cart->getItems();
-
         $output->writeln(' ');
-        if (count($items) == 0) {
-            return $this->failed($output, 'Cart is empty.');
-        }
-
         $output->writeln('<question>Total price</question>');
         $output->writeln($this->line);
-        $output->writeln($cart->total());
+        $output->writeln(Cart::total());
         $output->writeln(' ');
 
         return Command::SUCCESS;

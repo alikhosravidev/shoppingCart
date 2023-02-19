@@ -2,10 +2,8 @@
 
 namespace App\Commands\Cart;
 
-use App\Cart\Cart;
 use App\Contract\BaseCommand;
-use App\Entities\Product;
-use App\Entities\Unit;
+use App\Facades\Cart;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -24,7 +22,6 @@ class DeleteFromCart extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $cart = new Cart;
         $output->writeln(' ');
         $id = $input->getArgument('id');
         if (! is_numeric($id)) {
@@ -36,17 +33,17 @@ class DeleteFromCart extends BaseCommand
             return $this->failed($output, 'You most inter argument item type');
         }
 
-        if (! in_array($type, array_keys($cart->entityMap))) {
+        if (! in_array($type, array_keys(Cart::$entityMap))) {
             return $this->failed($output, 'Your type is invalid (valid types: product, unit)');
         }
 
-        $entityType = $cart->entityMap[$type];
-        $cartId = $cart->generateRawId($id, $entityType);
-        if (! $cart->exists($cartId)) {
+        $entityType = Cart::$entityMap[$type];
+        $cartId = Cart::generateRawId($id, $entityType);
+        if (! Cart::exists($cartId)) {
             return $this->failed($output, 'Your item dose not exists.');
         }
 
-        $deleted = $cart->remove($cartId);
+        $deleted = Cart::remove($cartId);
         if (! $deleted) {
             return $this->failed($output, 'Process Failed!');
         }

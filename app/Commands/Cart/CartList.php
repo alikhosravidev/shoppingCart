@@ -2,10 +2,8 @@
 
 namespace App\Commands\Cart;
 
-use App\Cart\Cart;
 use App\Contract\BaseCommand;
-use App\Entities\Product;
-use App\Entities\Unit;
+use App\Facades\Cart;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,8 +16,7 @@ class CartList extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $cart = new Cart;
-        $items = $cart->getItems();
+        $items = Cart::getItems();
 
         $output->writeln(' ');
         if (count($items) == 0) {
@@ -32,7 +29,7 @@ class CartList extends BaseCommand
         ]);
 
         foreach ($items as $item) {
-            $type = array_search($item['entity_type'], $cart->entityMap);
+            $type = array_search($item['entity_type'], Cart::$entityMap);
             $this->writeRow($output, [
                 $item['entity_id'], $type, $item['name'], number_format($item['price']), $item['quantity'],
             ]);

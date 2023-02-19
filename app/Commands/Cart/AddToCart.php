@@ -2,10 +2,8 @@
 
 namespace App\Commands\Cart;
 
-use App\Cart\Cart;
 use App\Contract\BaseCommand;
-use App\Entities\Product;
-use App\Entities\Unit;
+use App\Facades\Cart;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -26,7 +24,6 @@ class AddToCart extends BaseCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $cart = new Cart();
         $output->writeln(' ');
         $id = $input->getArgument('id');
         if (! is_numeric($id)) {
@@ -38,18 +35,18 @@ class AddToCart extends BaseCommand
             return $this->failed($output, 'You most inter argument item type');
         }
 
-        if (! in_array($type, array_keys($cart->entityMap))) {
+        if (! in_array($type, array_keys(Cart::$entityMap))) {
             return $this->failed($output, 'Your type is invalid (valid types: product, unit)');
         }
 
-        $entityType = $cart->entityMap[$type];
+        $entityType = Cart::$entityMap[$type];
         $entity = $entityType::query()->find($id);
         if (! $entity->exists()) {
             return $this->failed($output, "$type ID not found!");
         }
         $quantity = $input->getOption('quantity') ?? 1;
 
-        $cart->add($id, $entityType, $entity->name, $quantity, $entity->getFinalPrice());
+        Cart::add($id, $entityType, $entity->name, $quantity, $entity->getFinalPrice());
 
         $output->writeln("<info>$type successfully add to cart.</info>");
         $output->writeln(' ');
