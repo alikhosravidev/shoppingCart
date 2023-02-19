@@ -2,14 +2,11 @@
 
 namespace App;
 
-use App\Cart\Cart;
 use App\Contract\Cart\CartStore;
 use App\Core\Config;
 use App\Core\Container;
 use App\Core\DatabaseManager;
 use App\Core\Event;
-use App\Core\Request;
-use App\Core\Response;
 use App\Listeners\UpdateCartAfterEntityDeleted;
 use App\Listeners\UpdateCartAfterEntityUpdated;
 use App\Notifications\ProductCreatedNotification;
@@ -44,11 +41,6 @@ class Kernel
 
         $config = new Config($this->configs);
         $container->set(Config::class, $config);
-
-        $container->set(Request::class, Request::createFromGlobals());
-
-        $response = $container->get(Response::class);
-        $container->set(Response::class, $response);
     }
 
     protected function registerEvents()
@@ -77,11 +69,6 @@ class Kernel
             $application->add($this->container->get($command));
         }
         $application->run();
-    }
-
-    public function sendResponse()
-    {
-        $this->container->get(Response::class)->send();
     }
 
     protected function __clone()

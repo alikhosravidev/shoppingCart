@@ -15,4 +15,3 @@ if (! is_writable(__DIR__.'/database.json')) {
 }
 
 $app = (new \App\Kernel(require __DIR__.'/configs.php'));
-$app->sendResponse();
