@@ -8,7 +8,7 @@ class BaseEntity
 {
     protected DatabaseManager $database;
 
-    protected array $properties;
+    protected ?array $properties;
 
     public function __construct()
     {
@@ -55,10 +55,14 @@ class BaseEntity
         return $this;
     }
 
+    public function exists(): bool
+    {
+        return (bool) $this->properties;
+    }
+
     public function create(array $data): static
     {
         $data['id'] = $this->getNewId();
-
         $this->database->create($this->getTableName(), $data);
         $this->setProperties($data);
 

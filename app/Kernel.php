@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Cart\Cart;
+use App\Contract\Cart\CartStore;
 use App\Core\Config;
 use App\Core\Container;
 use App\Core\DatabaseManager;
@@ -55,11 +57,15 @@ class Kernel
         $database = $this->container->get(DatabaseManager::class);
         $this->container->set(DatabaseManager::class, $database);
 
+        $config = $this->container->get(Config::class);
+        $cartStorage = $config->get('cart.storage');
+        $cartStorage = $this->container->get($cartStorage);
+        $this->container->set(CartStore::class, $cartStorage);
     }
 
     protected function registerCommands()
     {
-        $application = new Application();
+        $application = new Application;
         $commands = $this->container->get(Config::class)->get('commands');
         foreach ($commands as $command) {
             $application->add($this->container->get($command));

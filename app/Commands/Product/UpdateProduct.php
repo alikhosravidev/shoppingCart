@@ -32,7 +32,7 @@ class UpdateProduct extends BaseCommand
         }
 
         $product = Product::query()->find($id);
-        if (! $product) {
+        if (! $product->exists()) {
             return $this->failed($output, 'Product ID not found!');
         }
 

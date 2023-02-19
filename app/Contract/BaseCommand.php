@@ -6,7 +6,6 @@ use Symfony\Component\Console\Command\Command;
 
 class BaseCommand extends Command
 {
-
     protected string $separator = '      |      ';
 
     protected function failed($output, $message, $type = 'error')

@@ -4,7 +4,6 @@ namespace App\Commands\Product;
 
 use App\Contract\BaseCommand;
 use App\Entities\Product;
-use App\Utilities\PriceCalculator;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;

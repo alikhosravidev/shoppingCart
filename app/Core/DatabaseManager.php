@@ -24,31 +24,30 @@ class DatabaseManager
         if (is_null($id)) {
             return $tableData;
         }
-        // real id is: n - 1
-        --$id;
 
         return $tableData[$id] ?? null;
     }
 
     public function create($table, $data)
     {
-        $this->data[$table][] = $data;
+        $this->data[$table][$data['id']] = $data;
         $this->put();
     }
 
     public function update($table, $id, $data)
     {
-        // real id is: n - 1
-        --$id;
+        if (! isset($this->data[$table][$id])) {
+            return false;
+        }
+
         $this->data[$table][$id] = $data;
         $this->put();
+
+        return true;
     }
 
     public function delete($table, $id)
     {
-        // real id is: n - 1
-        --$id;
-
         if (! isset($this->data[$table][$id])) {
             return false;
         }
@@ -61,7 +60,7 @@ class DatabaseManager
 
     public function getData()
     {
-        return $this->data;
+        return $this->data ?? [];
     }
 
     public function flash()

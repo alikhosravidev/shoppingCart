@@ -29,8 +29,8 @@ class DeleteUnit extends BaseCommand
             return $this->failed($output, 'You most inter argument unit id');
         }
 
-        $product = Unit::query()->find($id);
-        if (! $product) {
+        $unit = Unit::query()->find($id);
+        if (! $unit->exists()) {
             return $this->failed($output, 'Unit ID not found!');
         }
 

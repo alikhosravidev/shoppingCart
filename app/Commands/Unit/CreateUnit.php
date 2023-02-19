@@ -31,7 +31,7 @@ class CreateUnit extends BaseCommand
     {
         $name = $input->getOption('name');
         if (! $name) {
-            ProductExceptions::invalidName();
+            UnitExceptions::invalidName();
             return Command::FAILURE;
         }
 
@@ -41,9 +41,10 @@ class CreateUnit extends BaseCommand
             UnitExceptions::invalidProducts();
             return Command::FAILURE;
         }
+
         foreach ($products as $productId) {
             $product = Product::query()->find($productId);
-            if (! $product) {
+            if (! $product->exists()) {
                 UnitExceptions::someProductNotExists($productId);
                 return Command::FAILURE;
             }

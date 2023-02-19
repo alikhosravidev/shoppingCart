@@ -36,7 +36,7 @@ class UpdateUnit extends BaseCommand
         }
 
         $unit = Unit::query()->find($id);
-        if (! $unit) {
+        if (! $unit->exists()) {
             return $this->failed($output, 'Unit ID not found!');
         }
 

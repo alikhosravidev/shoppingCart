@@ -29,7 +29,7 @@ class DeleteProduct extends BaseCommand
         }
 
         $product = Product::query()->find($id);
-        if (! $product) {
+        if (! $product->exists()) {
             return $this->failed($output, 'Product ID not found!');
         }
 
@@ -37,8 +37,8 @@ class DeleteProduct extends BaseCommand
             return $this->failed($output, 'You cannot remove this product because it is in a unit.');
         }
 
-        $isDeleted = Product::query()->delete($id);
-        if (! $isDeleted) {
+        $deleted = Product::query()->delete($id);
+        if (! $deleted) {
             return $this->failed($output, 'Process Failed!');
         }
 

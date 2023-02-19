@@ -3,9 +3,7 @@
 namespace App\Commands\Unit;
 
 use App\Contract\BaseCommand;
-use App\Entities\Product;
 use App\Entities\Unit;
-use App\Utilities\PriceCalculator;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
